@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Modal,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useRoute, useNavigation } from "@react-navigation/native";
@@ -12,11 +13,13 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Colors from "../../Utils/Colors";
 import Heading from "../../Components/Heading";
 import BusinessPhotos from "./BusinessPhotos";
+import BookingModal from "../BookingScreen/BookingModal";
 
 export default function BusinessDetailsScreen() {
   const param = useRoute().params;
   const [business, setBusiness] = useState(param.business);
   const [isReadMore, setIsReadMore] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const navigation = useNavigation();
   useEffect(() => {}, []);
   return (
@@ -117,7 +120,10 @@ export default function BusinessDetailsScreen() {
               Message
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={Styles.bookingBtn}>
+          <TouchableOpacity
+            style={Styles.bookingBtn}
+            onPress={() => setShowModal(true)}
+          >
             <Text
               style={{
                 fontFamily: "outfit-medium",
@@ -130,6 +136,10 @@ export default function BusinessDetailsScreen() {
             </Text>
           </TouchableOpacity>
         </View>
+        {/*Booking Screen Modal */}
+        <Modal animationType="slide" visible={showModal}>
+          <BookingModal hideModal={() => setShowModal(false)} />
+        </Modal>
       </View>
     )
   );
