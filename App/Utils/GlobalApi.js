@@ -55,4 +55,33 @@ const getBusinessList = async () => {
   return result;
 };
 
-export default { getSlider, getCategories, getBusinessList };
+const getBusinessListByCategory = async (category) => {
+  const query =
+    gql`
+  query getBusinessList {
+    businessLists(where: {category: {name: "` +
+    category +
+    `"}}) {
+      id
+      name
+      category {
+        name
+      }
+      about
+      images {
+        url
+      }
+    }
+  }
+  
+  `;
+  const result = await request(Master_URL, query, { category });
+  return result;
+};
+
+export default {
+  getSlider,
+  getCategories,
+  getBusinessList,
+  getBusinessListByCategory,
+};
