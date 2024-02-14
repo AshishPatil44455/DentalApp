@@ -79,9 +79,75 @@ const getBusinessListByCategory = async (category) => {
   return result;
 };
 
+const createBooking = async (data) => {
+  const mutationQuery =
+    gql`
+  mutation createBooking {
+    createBooking(
+      data: {bookingStatus: Booked,
+         businessList: {connect: {id: "` +
+    data.businessId +
+    `"}},
+          date: "` +
+    data.date +
+    `", 
+          time: " ` +
+    data.time +
+    `", 
+          userEmail: " ` +
+    data.userEmail +
+    `",
+           userName: " ` +
+    data.userName +
+    `"}
+    ) {
+      id
+    }
+    publishManyBookings(to: PUBLISHED) {
+      count
+    }
+  }
+
+  `;
+  const result = await request(Master_URL, mutationQuery);
+  return result;
+};
+
+const getUserBookings = async (userEmail) => {
+  const query =
+    gql`
+  query GetUserBookings {
+    bookings(orderBy: updatedAt_DESC, where: {userEmail: "` +
+    userEmail +
+    `"}) {
+      time
+      userEmail
+      userName
+      bookingStatus
+      date
+      id
+      businessList {
+        id
+        images {
+          url
+        }
+        name
+        about
+      }
+    }
+  }
+  
+  `;
+
+  const result = await request(Master_URL, query);
+  return result;
+};
+
 export default {
   getSlider,
   getCategories,
   getBusinessList,
   getBusinessListByCategory,
+  createBooking,
+  getUserBookings,
 };

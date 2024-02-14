@@ -3,7 +3,7 @@ import React from "react";
 import Colors from "../../Utils/Colors";
 import { useNavigation } from "@react-navigation/native";
 
-export default function BusinessListItem({ business }) {
+export default function BusinessListItem({ business, booking }) {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
@@ -18,6 +18,10 @@ export default function BusinessListItem({ business }) {
         <Text style={{ fontFamily: "outfit-bold", fontSize: 20 }}>
           {business?.name}
         </Text>
+        {booking?.id ? <Text>Show Booking</Text> : null}
+
+        {/* need to complete the code here to show the status of booking 
+        if pending then show pending else show booked else show cancelled */}
       </View>
     </TouchableOpacity>
   );

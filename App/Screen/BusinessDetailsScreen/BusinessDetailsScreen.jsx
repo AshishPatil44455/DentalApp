@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   Modal,
+  Linking,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useRoute, useNavigation } from "@react-navigation/native";
@@ -22,6 +23,10 @@ export default function BusinessDetailsScreen() {
   const [showModal, setShowModal] = useState(false);
   const navigation = useNavigation();
   useEffect(() => {}, []);
+
+  const onMessageBtnClick = () => {
+    Linking.openURL("mailto:ashishkumarpatil44455@gmail.com");
+  };
   return (
     business && (
       <View>
@@ -108,7 +113,10 @@ export default function BusinessDetailsScreen() {
             gap: 8,
           }}
         >
-          <TouchableOpacity style={Styles.messageBtn}>
+          <TouchableOpacity
+            style={Styles.messageBtn}
+            onPress={() => onMessageBtnClick()}
+          >
             <Text
               style={{
                 fontFamily: "outfit-medium",
@@ -138,7 +146,10 @@ export default function BusinessDetailsScreen() {
         </View>
         {/*Booking Screen Modal */}
         <Modal animationType="slide" visible={showModal}>
-          <BookingModal hideModal={() => setShowModal(false)} />
+          <BookingModal
+            businessId={business?.Id}
+            hideModal={() => setShowModal(false)}
+          />
         </Modal>
       </View>
     )
